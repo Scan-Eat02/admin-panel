@@ -1,0 +1,11 @@
+# dependencies
+/node_modules
+.eslintcache
+package-lock.json
+
+# production
+/dst
+
+# misc
+.env.development
+.env.production

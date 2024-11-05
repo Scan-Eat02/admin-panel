@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "ES2020", // Specifies the JavaScript version to compile to. ES2020 includes modern features like optional chaining and nullish coalescing.
+    "lib": ["ES2020", "DOM", "DOM.Iterable"], // Specifies the library files to include in the compilation. This allows using ES2020 features and DOM APIs.
+
+    /* Module Options */
+    "module": "ESNext", // Specifies the module system to use for the compiled code. ESNext allows for the latest module syntax and behavior.
+    "moduleResolution": "Bundler", // Configures how modules are resolved, suitable for modern bundlers like Vite.
+
+    /* Type Checking Options */
+    "skipLibCheck": true, // Skips type checking of declaration files to speed up the compilation process.
+    "forceConsistentCasingInFileNames": true, // Enforces consistent casing in file names to avoid issues on case-sensitive file systems.
+
+    /* Class Fields */
+    "useDefineForClassFields": true, // Uses the ECMAScript proposal for class fields, which changes how class fields are initialized.
+
+    /* JSX Options */
+    "jsx": "react-jsx", // Specifies the JSX code generation mode, enabling support for React 17's new JSX transform.
+
+    /* Strictness Options */
+    "strict": true, // Enables all strict type checking options, enhancing type safety.
+    "noUnusedLocals": true, // Warns about declared local variables that are not used in the code.
+    "noUnusedParameters": true, // Warns about parameters in functions that are not used.
+    "noFallthroughCasesInSwitch": true, // Ensures that switch statements handle all cases correctly, preventing fall-through behavior.
+
+    /* Compilation Options */
+    "isolatedModules": true, // Ensures that each file can be transpiled independently, which is useful for projects using tools like Babel.
+    "allowSyntheticDefaultImports": true, // Allows default imports from modules with no default export, improving compatibility with CommonJS modules.
+
+    /* Incremental Compilation */
+    "incremental": true, // Enables incremental compilation, which speeds up subsequent builds by only compiling changed files.
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo", // Specifies the path for the incremental compilation info file.
+
+    /* Module Paths */
+    "baseUrl": "./src", // Sets the base directory for resolving non-relative module names.
+    "paths": {
+      "@/*": ["*"] // Maps module import paths, allowing for easier imports from the `src` directory using the '@' alias.
+    },
+
+    /* Output Options */
+    "noEmit": true // Prevents the compiler from generating any output files, useful for projects where TypeScript is only used for type checking.
+  },
+  "include": ["src/**/*"], // Specifies which files to include in the compilation, targeting all files within the src directory.
+  "exclude": ["node_modules", "build", "dist"] // Excludes specific directories from the compilation to optimize build times.
+}
