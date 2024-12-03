@@ -6,8 +6,10 @@ import {
   PHONE_REGEX_PATTERN,
 } from "@/utils/regex";
 
+import { useSignUp } from "../services";
 const useSignUpController = () => {
   const [form] = Form.useForm();
+  const signUpUser = useSignUp();
 
   const onFinish: FormProps<ISignUp>["onFinish"] = (data) => {
     const userEmail = form.getFieldValue("email")?.trim();
@@ -22,49 +24,39 @@ const useSignUpController = () => {
           errors: ["Please provide an email."],
         },
       ]);
-      return;
-    }
-    if (!EMAIL_REGEX_PATTERN.test(userEmail)) {
+    } else if (!EMAIL_REGEX_PATTERN.test(userEmail)) {
       form.setFields([
         {
           name: "email",
           errors: ["Please enter a valid email."],
         },
       ]);
-      return;
     }
-
     // Mobile number validation
-    if (!userMobileNumber) {
+    else if (!userMobileNumber) {
       form.setFields([
         {
           name: "mobileNumber",
           errors: ["Please provide a mobile number."],
         },
       ]);
-      return;
-    }
-    if (!PHONE_REGEX_PATTERN.test(userMobileNumber)) {
+    } else if (!PHONE_REGEX_PATTERN.test(userMobileNumber)) {
       form.setFields([
         {
           name: "mobileNumber",
           errors: ["Please enter a valid mobile number."],
         },
       ]);
-      return;
     }
-
     // Password validation
-    if (!userPassword) {
+    else if (!userPassword) {
       form.setFields([
         {
           name: "password",
           errors: ["Password is required."],
         },
       ]);
-      return;
-    }
-    if (!PASSWORD_REGEX_PATTERN.test(userPassword)) {
+    } else if (!PASSWORD_REGEX_PATTERN.test(userPassword)) {
       form.setFields([
         {
           name: "password",
@@ -73,21 +65,23 @@ const useSignUpController = () => {
           ],
         },
       ]);
-      return;
+    } else {
+      // Clear errors if validation passes
+      form.setFields([
+        { name: "email", errors: [] },
+        { name: "mobileNumber", errors: [] },
+        { name: "password", errors: [] },
+      ]);
+
+      // Prepare data for submission
+      data.password = CryptoJS.AES.encrypt(
+        userPassword,
+        "SIGNUP_PASSWORD_CIPHER"
+      ).toString();
+
+      const { confirmPassword, ...signUpData } = data;
+      signUpUser.mutate(signUpData);
     }
-
-    // Clear errors if validation passes
-    form.setFields([
-      { name: "email", errors: [] },
-      { name: "mobileNumber", errors: [] },
-      { name: "password", errors: [] },
-    ]);
-
-    // Prepare data for submission
-    data.password = CryptoJS.AES.encrypt(
-      userPassword,
-      "SIGNUP_PASSWORD_CIPHER"
-    ).toString();
 
     // Proceed with sign-up submission (e.g., API call)
   };

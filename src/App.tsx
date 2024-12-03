@@ -5,7 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "react-query";
 import { queryClient } from "./apis";
 import Cookies from "js-cookie";
 import { USER_ACCESS_KEY } from "./utils/enums";

@@ -1,4 +1,4 @@
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient } from "react-query";
 
 const onError = (error: unknown) => {
   console.log(error);
