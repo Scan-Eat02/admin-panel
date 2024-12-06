@@ -6,8 +6,8 @@ export const PASSWORD_CIPHER_MESSAGE = "scanandeatpasswordcipher";
 
 export const APIS_ROUTES = {
   AUTH: {
-    SIGNUP: "/signup",
-    LOGIN: "/login",
+    SIGNUP: "/auth_service/signup",
+    LOGIN: "/auth_service/login",
   },
 };
 

@@ -23,7 +23,7 @@ RUN npm install -g serve
 # ENV NODE_ENV production
 
 # Expose port 3000 to the outside world
-EXPOSE 3000
+EXPOSE 3001
 
 # Start the application using 'serve' on port 3000
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD ["serve", "-s", "dist", "-l", "3001"]

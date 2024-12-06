@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 
 // const apiClient = axios.create({ baseURL: process.env.REACT_APP_API_URL });
 const apiClient = axios.create({
-  baseURL: "http://localhost:8085/kafka-queue",
+  baseURL: "http://172.19.2.12",
 });
 
 console.log(apiClient);

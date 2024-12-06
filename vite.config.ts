@@ -88,7 +88,7 @@ export default defineConfig({
   },
   server: {
     // Development server configuration
-    port: 3000, // Server port
+    port: 3001, // Server port
     open: true, // Automatically open the app in the browser
     hmr: {
       overlay: true, // Show overlay for Hot Module Replacement errors
