@@ -14,7 +14,7 @@ const useSignUpController = () => {
   const onFinish: FormProps<ISignUp>["onFinish"] = (data) => {
     const userEmail = form.getFieldValue("email")?.trim();
     const userMobileNumber = form.getFieldValue("mobileNumber")?.trim();
-    const userPassword = form.getFieldValue("password")?.trim();
+    const userPassword = form.getFieldValue("password");
 
     // Email validation
     if (!userEmail) {
