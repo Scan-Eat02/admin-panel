@@ -2,6 +2,7 @@ import { Button, Col, Form, Input, Row } from "antd";
 import { Link } from "react-router-dom";
 import useSignUpController from "./signupController";
 import { PASSWORD_REGEX_PATTERN, PHONE_REGEX_PATTERN } from "@/utils/regex";
+import GoogleOAuth from "../googleOAuth";
 
 const SignUp = () => {
   const { form, onFinish, onBlur } = useSignUpController();
@@ -116,23 +117,13 @@ const SignUp = () => {
                 if (!value || getFieldValue("password") === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(
-                  new Error("Passwords do not match")
-                );
+                return Promise.reject(new Error("Passwords do not match"));
               },
             }),
           ]}
         >
-          <Input.Password
-            size={"large"}
-          />
+          <Input.Password size={"large"} />
         </Form.Item>
-
-        <Row gutter={16} className="m-b-24">
-          <Col className="gutter-row text-right lh-normal" span={12}>
-            <Link to="/login">Already have an account? Login</Link>
-          </Col>
-        </Row>
 
         <Button
           id={"sign-up"}
@@ -145,6 +136,12 @@ const SignUp = () => {
           Sign Up
         </Button>
       </Form>
+      or <GoogleOAuth />
+      <Row gutter={16} className="m-b-24">
+        <Col className="gutter-row text-right lh-normal" span={12}>
+          Already have an account? <Link to="/login">Login</Link>
+        </Col>
+      </Row>
     </>
   );
 };

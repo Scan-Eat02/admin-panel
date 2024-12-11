@@ -1,2 +1,3 @@
 import useSignUp from "./signup";
-export { useSignUp };
+import useGoogleOAuth from "./googleOAuth";
+export { useSignUp, useGoogleOAuth };

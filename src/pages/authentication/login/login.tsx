@@ -1,6 +1,7 @@
 import { Button, Col, Form, Input, Row } from "antd";
 import { Link } from "react-router-dom";
 import useLoginController from "./loginController";
+import GoogleOAuth from "../googleOAuth";
 
 const Login = () => {
   const { form, onFinish, onBlur } = useLoginController();
@@ -68,16 +69,16 @@ const Login = () => {
         >
           Login
         </Button>
-
-        <Row gutter={16} className="m-t-16">
-          <Col className="gutter-row text-center" span={24}>
-            <span>Don't have an account?</span>
-            <Link to="/signup" className="ml-2">
-              Sign Up
-            </Link>
-          </Col>
-        </Row>
       </Form>
+      or <GoogleOAuth />
+      <Row gutter={16} className="m-t-16">
+        <Col className="gutter-row text-center" span={24}>
+          <span>Don't have an account?</span>
+          <Link to="/signup" className="ml-2">
+            Sign Up
+          </Link>
+        </Col>
+      </Row>
     </>
   );
 };

@@ -7,7 +7,6 @@ const apiClient = axios.create({
   baseURL: "http://172.19.2.12",
 });
 
-console.log(apiClient);
 apiClient.interceptors.request.use(
   async (config) => {
     const accessToken = Cookies.get(USER_ACCESS_KEY.TOKEN);
