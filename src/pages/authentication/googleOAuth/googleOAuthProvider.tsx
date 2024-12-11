@@ -1,8 +1,9 @@
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleOAuth } from "./googleOAuth";
+import { GOOGLE_CLIENT_ID } from "@/utils/enums";
 export const GoogleOAuthWrapper = () => {
   return (
-    <GoogleOAuthProvider clientId="680587483747-vkfthvs68ko817uj5gk0sjmml19m8don.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <GoogleOAuth />
     </GoogleOAuthProvider>
   );

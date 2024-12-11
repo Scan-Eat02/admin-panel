@@ -4,6 +4,9 @@ export const USER_ACCESS_KEY = {
 
 export const PASSWORD_CIPHER_MESSAGE = "scanandeatpasswordcipher";
 
+export const GOOGLE_CLIENT_ID =
+  "339542114193-f0f1no9ni29v0v48qf3gbrk8ke3c778m.apps.googleusercontent.com";
+
 export const APIS_ROUTES = {
   AUTH: {
     SIGNUP: "/auth_service/signup",

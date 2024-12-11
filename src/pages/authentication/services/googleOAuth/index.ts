@@ -9,7 +9,7 @@ const googleOAuth = async (codeResponse: CodeResponse) => {
     if (!codeResponse.code) return;
     const result = await apiClient.post<CodeResponse, IAxiosResponse<any>>(
       APIS_ROUTES.AUTH.GOOGLE_AUTH,
-      codeResponse
+      { isAdmin: true, ...codeResponse }
     );
     return result.response.Data;
   } catch (error) {

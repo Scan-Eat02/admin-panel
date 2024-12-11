@@ -30,15 +30,14 @@ apiClient.interceptors.response.use(
   async (error) => {
     if (
       error.response &&
-      (error.response.status === 401 || error.response.status === 403) &&
-      typeof window !== "undefined"
+      (error.response.status === 401 || error.response.status === 403)
     ) {
-      //   Cookies.remove(USER_ACCESS_KEY.TOKEN);
+      Cookies.remove(USER_ACCESS_KEY.TOKEN);
     } else if (
       error.response &&
       (error.response.status === 400 || error.response.status === 404)
     ) {
-      window.location.href = "/not-access";
+      // window.location.href = "/not-access";
     } else if (error.response.status === 500 || error.response.status === 503) {
       alert("Server under maintenance");
     }

@@ -5,7 +5,7 @@ import { APIS_ROUTES, API_MUTATION_KEY } from "@/utils/enums";
 const signUp = async (signUp: ISignUp) => {
   const result = await apiClient.post<ISignUp, IAxiosResponse<any>>(
     APIS_ROUTES.AUTH.SIGNUP,
-    signUp
+    { isAdmin: true, ...signUp }
   );
 
   return result.response.Data;
