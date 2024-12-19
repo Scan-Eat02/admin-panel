@@ -21,7 +21,8 @@ interface IAPIError {
 }
 
 interface ILogin {
-  emailOrNumber: string;
+  // emailOrNumber: string;
+  email: string;
   password: string;
 }
 

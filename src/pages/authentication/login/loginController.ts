@@ -1,44 +1,67 @@
 import { Form, FormProps } from "antd";
 // import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import CryptoJS from "crypto-js";
-import { PASSWORD_CIPHER_MESSAGE, USER_ACCESS_KEY } from "@/utils/enums";
+
+import { USER_ACCESS_KEY } from "@/utils/enums";
+
 import {
   EMAIL_REGEX_PATTERN,
   PASSWORD_REGEX_PATTERN,
-  PHONE_REGEX_PATTERN,
+  // PHONE_REGEX_PATTERN,
 } from "@/utils/regex";
+import { useLogin } from "../services";
+import { encryptPassword } from "@/utils";
 
 const useLoginController = () => {
   //   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const loginUser = useLogin();
 
   const onFinish: FormProps<ILogin>["onFinish"] = (data) => {
-    const userEmailOrNumber = form.getFieldValue("emailOrNumber")?.trim();
+    // const userEmailOrNumber = form.getFieldValue("emailOrNumber")?.trim();
+    const userEmail = form.getFieldValue("email")?.trim();
     const userPassword = form.getFieldValue("password")?.trim();
 
-    // Email or Number validation
-    if (!userEmailOrNumber) {
+    // Email validation
+    if (!userEmail) {
       form.setFields([
         {
-          name: "emailOrNumber",
-          errors: ["Please provide an email or mobile number."],
+          name: "email",
+          errors: ["Please provide an Email"],
         },
       ]);
       return;
     }
-    if (
-      !EMAIL_REGEX_PATTERN.test(userEmailOrNumber) &&
-      !PHONE_REGEX_PATTERN.test(userEmailOrNumber)
-    ) {
+    if (!EMAIL_REGEX_PATTERN.test(userEmail)) {
       form.setFields([
         {
-          name: "emailOrNumber",
-          errors: ["Please enter a valid email or mobile number."],
+          name: "email",
+          errors: ["Please enter a valid Email"],
         },
       ]);
       return;
     }
+    // if (!userEmailOrNumber) {
+    //   form.setFields([
+    //     {
+    //       name: "emailOrNumber",
+    //       errors: ["Please provide an email or mobile number."],
+    //     },
+    //   ]);
+    //   return;
+    // }
+    // if (
+    //   !EMAIL_REGEX_PATTERN.test(userEmailOrNumber) &&
+    //   !PHONE_REGEX_PATTERN.test(userEmailOrNumber)
+    // ) {
+    //   form.setFields([
+    //     {
+    //       name: "emailOrNumber",
+    //       errors: ["Please enter a valid email or mobile number."],
+    //     },
+    //   ]);
+    //   return;
+    // }
 
     // Password validation
     if (!userPassword) {
@@ -74,40 +97,58 @@ const useLoginController = () => {
     Cookies.remove(USER_ACCESS_KEY.TOKEN);
 
     // Prepare data for submission
-    data.emailOrNumber = userEmailOrNumber;
-    data.password = CryptoJS.AES.encrypt(
-      userPassword,
-      PASSWORD_CIPHER_MESSAGE
-    ).toString();
+    // data.emailOrNumber = userEmailOrNumber;
+    data.email = userEmail;
+    data.password = encryptPassword(userPassword);
 
-    // Proceed with login submission (e.g., API call)
+    loginUser.mutate(data);
   };
 
   const onBlur = (fieldName: string) => {
     const value = form.getFieldValue(fieldName);
 
-    if (fieldName === "emailOrNumber") {
+    if (fieldName === "email") {
       if (!value || value.trim().length === 0) {
         form.setFields([
           {
-            name: "emailOrNumber",
-            errors: ["Please provide an email or mobile number"],
+            name: "email",
+            errors: ["Please provide an Email"],
           },
         ]);
-      } else if (
-        !EMAIL_REGEX_PATTERN.test(value) &&
-        !PHONE_REGEX_PATTERN.test(value)
-      ) {
+      } else if (!EMAIL_REGEX_PATTERN.test(value)) {
         form.setFields([
           {
-            name: "emailOrNumber",
-            errors: ["Invalid email or mobile number format"],
+            name: "email",
+            errors: ["Invalid Email"],
           },
         ]);
       } else {
-        form.setFields([{ name: "emailOrNumber", errors: [] }]);
+        form.setFields([{ name: "email", errors: [] }]);
       }
     }
+
+    // if (fieldName === "emailOrNumber") {
+    //   if (!value || value.trim().length === 0) {
+    //     form.setFields([
+    //       {
+    //         name: "emailOrNumber",
+    //         errors: ["Please provide an email or mobile number"],
+    //       },
+    //     ]);
+    //   } else if (
+    //     !EMAIL_REGEX_PATTERN.test(value) &&
+    //     !PHONE_REGEX_PATTERN.test(value)
+    //   ) {
+    //     form.setFields([
+    //       {
+    //         name: "emailOrNumber",
+    //         errors: ["Invalid email or mobile number format"],
+    //       },
+    //     ]);
+    //   } else {
+    //     form.setFields([{ name: "emailOrNumber", errors: [] }]);
+    //   }
+    // }
 
     if (fieldName === "password") {
       if (!value || value.trim().length === 0) {

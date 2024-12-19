@@ -1,5 +1,4 @@
 import { Form, FormProps } from "antd";
-import CryptoJS from "crypto-js";
 import {
   EMAIL_REGEX_PATTERN,
   PASSWORD_REGEX_PATTERN,
@@ -7,6 +6,7 @@ import {
 } from "@/utils/regex";
 
 import { useSignUp } from "../services";
+import { encryptPassword } from "@/utils";
 const useSignUpController = () => {
   const [form] = Form.useForm();
   const signUpUser = useSignUp();
@@ -74,13 +74,10 @@ const useSignUpController = () => {
       ]);
 
       // Prepare data for submission
-      data.password = CryptoJS.AES.encrypt(
-        userPassword,
-        "SIGNUP_PASSWORD_CIPHER"
-      ).toString();
+      data.password = encryptPassword(userPassword);
+      delete data.confirmPassword;
 
-      const { confirmPassword, ...signUpData } = data;
-      signUpUser.mutate(signUpData);
+      signUpUser.mutate(data);
     }
 
     // Proceed with sign-up submission (e.g., API call)

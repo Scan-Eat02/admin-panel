@@ -26,6 +26,18 @@ const Login = () => {
         autoComplete="off"
       >
         <Form.Item
+          name="email"
+          label={"Enter Email"}
+          rules={[
+            {
+              required: true,
+              message: "Please provide an Email",
+            },
+          ]}
+        >
+          <Input onBlur={() => onBlur("email")} size={"large"} />
+        </Form.Item>
+        {/* <Form.Item
           name="emailOrNumber"
           label={"Enter email or mobile number"}
           rules={[
@@ -36,7 +48,7 @@ const Login = () => {
           ]}
         >
           <Input onBlur={() => onBlur("emailOrNumber")} size={"large"} />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item
           name="password"
           label={"Enter password"}
