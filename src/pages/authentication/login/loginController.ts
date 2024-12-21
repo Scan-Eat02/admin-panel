@@ -1,9 +1,9 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Form, FormProps } from "antd";
-// import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import { USER_ACCESS_KEY } from "@/utils/enums";
-
 import {
   EMAIL_REGEX_PATTERN,
   PASSWORD_REGEX_PATTERN,
@@ -11,12 +11,18 @@ import {
 } from "@/utils/regex";
 import { useLogin } from "../services";
 import { encryptPassword } from "@/utils";
+import { useUser } from "@/context";
 
 const useLoginController = () => {
-  //   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const [isGoogleAuthLogingIn, setIsGoogleAuthLogingIn] = useState(false);
+  const { login } = useUser();
   const loginUser = useLogin();
 
+  const onGoogleAuth = (isGoogleAuthLogingIn: boolean) => {
+    setIsGoogleAuthLogingIn(isGoogleAuthLogingIn);
+  };
   const onFinish: FormProps<ILogin>["onFinish"] = (data) => {
     // const userEmailOrNumber = form.getFieldValue("emailOrNumber")?.trim();
     const userEmail = form.getFieldValue("email")?.trim();
@@ -169,7 +175,24 @@ const useLoginController = () => {
       }
     }
   };
-  return { form, onFinish, onBlur };
+  useEffect(() => {
+    if (loginUser.isSuccess && loginUser.data) {
+      login(loginUser.data);
+      Cookies.set(USER_ACCESS_KEY.TOKEN, loginUser.data.token);
+      navigate("/dashboard", {
+        replace: true,
+      });
+    }
+  }, [loginUser.isSuccess, loginUser.data]);
+
+  return {
+    form,
+    isLogingIn: loginUser.isLoading,
+    isGoogleAuthLogingIn,
+    onFinish,
+    onBlur,
+    onGoogleAuth,
+  };
 };
 
 export default useLoginController;

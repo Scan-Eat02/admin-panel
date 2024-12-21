@@ -8,7 +8,7 @@ const login = async (login: ILogin) => {
     login
   );
 
-  return result.response.Data;
+  return result.response.data;
 };
 
 const useLogin = () =>

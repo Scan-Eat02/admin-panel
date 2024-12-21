@@ -5,7 +5,14 @@ import { PASSWORD_REGEX_PATTERN, PHONE_REGEX_PATTERN } from "@/utils/regex";
 import GoogleOAuth from "../googleOAuth";
 
 const SignUp = () => {
-  const { form, onFinish, onBlur } = useSignUpController();
+  const {
+    form,
+    isSigningUp,
+    isGoogleSigningUp,
+    onFinish,
+    onBlur,
+    onGoogleSignUp,
+  } = useSignUpController();
   return (
     <>
       <h1 className="h4">Create your account</h1>
@@ -24,7 +31,8 @@ const SignUp = () => {
           remember: true,
         }}
         onFinish={onFinish}
-        autoComplete="off"
+        autoComplete="on"
+        disabled={isSigningUp || isGoogleSigningUp}
       >
         <Form.Item
           name="firstName"
@@ -130,13 +138,14 @@ const SignUp = () => {
           type="primary"
           htmlType="submit"
           className="w-100"
-          loading={false}
+          loading={isSigningUp}
+          disabled={isGoogleSigningUp}
           size="large"
         >
           Sign Up
         </Button>
       </Form>
-      or <GoogleOAuth />
+      or <GoogleOAuth isDisabled={isSigningUp} onGoogleAuth={onGoogleSignUp} />
       <Row gutter={16} className="m-b-24">
         <Col className="gutter-row text-right lh-normal" span={12}>
           Already have an account? <Link to="/login">Login</Link>

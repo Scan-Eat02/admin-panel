@@ -4,7 +4,14 @@ import useLoginController from "./loginController";
 import GoogleOAuth from "../googleOAuth";
 
 const Login = () => {
-  const { form, onFinish, onBlur } = useLoginController();
+  const {
+    form,
+    isLogingIn,
+    isGoogleAuthLogingIn,
+    onFinish,
+    onBlur,
+    onGoogleAuth,
+  } = useLoginController();
   return (
     <>
       <h1 className="h4">Welcome to Scan and Eat</h1>
@@ -23,7 +30,8 @@ const Login = () => {
           remember: true,
         }}
         onFinish={onFinish}
-        autoComplete="off"
+        autoComplete="on"
+        disabled={isLogingIn || isGoogleAuthLogingIn}
       >
         <Form.Item
           name="email"
@@ -76,13 +84,14 @@ const Login = () => {
           type="primary"
           htmlType="submit"
           className="w-100"
-          loading={false}
+          loading={isLogingIn}
+          disabled={isGoogleAuthLogingIn}
           size="large"
         >
           Login
         </Button>
       </Form>
-      or <GoogleOAuth />
+      or <GoogleOAuth isDisabled={isLogingIn} onGoogleAuth={onGoogleAuth} />
       <Row gutter={16} className="m-t-16">
         <Col className="gutter-row text-center" span={24}>
           <span>Don't have an account?</span>

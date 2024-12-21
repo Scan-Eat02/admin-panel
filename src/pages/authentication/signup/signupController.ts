@@ -1,16 +1,28 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import { Form, FormProps } from "antd";
+
 import {
   EMAIL_REGEX_PATTERN,
   PASSWORD_REGEX_PATTERN,
   PHONE_REGEX_PATTERN,
 } from "@/utils/regex";
-
-import { useSignUp } from "../services";
+import { useUser } from "@/context";
 import { encryptPassword } from "@/utils";
+import { USER_ACCESS_KEY } from "@/utils/enums";
+import { useSignUp } from "../services";
+
 const useSignUpController = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const [isGoogleSigningUp, setIsGoogleSigningUp] = useState(false);
+  const { login } = useUser();
   const signUpUser = useSignUp();
 
+  const onGoogleSignUp = (isGoogleAuthLogingIn: boolean) => {
+    setIsGoogleSigningUp(isGoogleAuthLogingIn);
+  };
   const onFinish: FormProps<ISignUp>["onFinish"] = (data) => {
     const userEmail = form.getFieldValue("email")?.trim();
     const userMobileNumber = form.getFieldValue("mobileNumber")?.trim();
@@ -155,7 +167,24 @@ const useSignUpController = () => {
     // }
   };
 
-  return { form, onFinish, onBlur };
+  useEffect(() => {
+    if (signUpUser.isSuccess && signUpUser.data) {
+      login(signUpUser.data);
+      Cookies.set(USER_ACCESS_KEY.TOKEN, signUpUser.data.token);
+      navigate("/dashboard", {
+        replace: true,
+      });
+    }
+  }, [signUpUser.isSuccess, signUpUser.data]);
+
+  return {
+    form,
+    isSigningUp: signUpUser.isLoading,
+    isGoogleSigningUp,
+    onFinish,
+    onBlur,
+    onGoogleSignUp,
+  };
 };
 
 export default useSignUpController;

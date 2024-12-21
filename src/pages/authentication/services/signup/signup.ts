@@ -8,7 +8,7 @@ const signUp = async (signUp: ISignUp) => {
     signUp
   );
 
-  return result.response.Data;
+  return result.response.data;
 };
 
 const useSignUp = () =>

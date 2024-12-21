@@ -49,9 +49,11 @@ apiClient.interceptors.response.use(
   (response: AxiosResponse) => {
     response.data = {
       statusCode: response.status,
-      response: response.data,
+      response: {
+        data: response.data.body,
+      },
     };
-    return response;
+    return response.data;
   },
   async (error) => {
     if (

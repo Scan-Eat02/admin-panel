@@ -1,7 +1,7 @@
 interface IAxiosResponse<T> {
   response: {
-    Data: T;
-    Status: string;
+    data: T;
+    statusCode: number;
   };
 }
 
@@ -33,4 +33,19 @@ interface ISignUp {
   mobileNumber: string;
   password: string;
   confirmPassword?: string;
+}
+
+interface User {
+  message: string;
+  token: string;
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    mobileNumber?: string;
+    isEmailVerified?: boolean;
+  };
+  id: number;
+  email: string;
 }
