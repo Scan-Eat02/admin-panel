@@ -9,10 +9,15 @@ const SignUp = () => {
     form,
     isSigningUp,
     isGoogleSigningUp,
+    // isVerifyingEmail,
+    // isSendingOtp,
     onFinish,
     onBlur,
     onGoogleSignUp,
+    // onSendOtp,
+    // onVerifyOtp,
   } = useSignUpController();
+
   return (
     <>
       <h1 className="h4">Create your account</h1>
@@ -76,6 +81,49 @@ const SignUp = () => {
         >
           <Input onBlur={() => onBlur("email")} size={"large"} />
         </Form.Item>
+
+        {/* Verify Email Section */}
+        <Row justify="space-between" align="middle" className="m-b-16">
+          <Col span={16}>
+            <p>Verify your email before proceeding</p>
+          </Col>
+          <Col span={8}>
+            <Button
+              type="primary"
+              // onClick={() => onSendOtp(form.getFieldValue("email"))}
+              // loading={isSendingOtp}
+              // disabled={isVerifyingEmail || isSendingOtp}
+              size="large"
+            >
+              Send OTP
+            </Button>
+          </Col>
+        </Row>
+
+        {/* Enter OTP Section */}
+        <Form.Item
+          name="otp"
+          label={"Enter OTP"}
+          rules={[
+            {
+              required: true,
+              message: "Please enter the OTP sent to your email",
+            },
+          ]}
+        >
+          <Input onBlur={() => onBlur("otp")} size={"large"} />
+        </Form.Item>
+
+        <Button
+          type="primary"
+          // onClick={() => onVerifyOtp(form.getFieldValue("otp"))}
+          // loading={isVerifyingEmail}
+          disabled={isSigningUp || isGoogleSigningUp /*|| isVerifyingEmail*/}
+          size="large"
+          className="m-b-16"
+        >
+          Verify OTP
+        </Button>
 
         <Form.Item
           name="mobileNumber"
